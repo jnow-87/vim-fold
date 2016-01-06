@@ -60,11 +60,13 @@ autocmd filetype java setlocal foldmethod=syntax foldnestmax=2 | silent! 0,$fold
 
 " create a fold
 vmap <silent> <c-F> :fold<cr>
-autocmd filetype c,cpp vmap <silent> <c-F> <esc>:call <SID>c_create_fold_mark()<cr>
+autocmd filetype c,cpp vmap <silent> <c-F> <esc>:setlocal foldmethod=syntax<cr>:call <SID>c_create_fold_mark()<cr>:setlocal foldmethod=manual<cr>
 
 " toggle fold
-nmap <silent> <c-F> :setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
-imap <silent> <c-F> <esc>:setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
+nmap <silent> <c-F> za
+imap <silent> <c-F> <esc>za
+autocmd filetype c,cpp nmap <silent> <c-F> :setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
+autocmd filetype c,cpp imap <silent> <c-F> <esc>:setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
 
 " delete fold
 nmap <silent> <c-a-F> zd
