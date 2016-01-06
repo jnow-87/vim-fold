@@ -50,7 +50,11 @@ set foldnestmax=1
 nmap <silent> <s-F> :foldopen<CR><insert>
 nmap <silent> <c-F> :foldclose<CR>
 imap <silent> <c-F> <ESC>:foldclose<CR>
+vmap <silent> <c-F> :fold<cr>
+nmap <silent> <c-a-F> zd
+imap <silent> <c-a-F> <esc>zd<insert>
 autocmd filetype c,cpp setlocal foldmethod=syntax 
+autocmd filetype java setlocal foldmethod=syntax foldnestmax=2
 
 
 " mappings for c and cpp
