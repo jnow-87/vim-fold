@@ -40,34 +40,27 @@ function s:c_delete_fold_mark()
 	endif
 endfunction
 
-
-" Don't screw up folds when inserting text that might affect them, until
-" leaving insert mode. Foldmethod is local to the window. Protect against
-" screwing up folding when switching between windows.
-autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
-autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+" define region for C/C++ fold markers
+autocmd filetype c,cpp syn region	cFold		matchgroup=cComment start="/\*{{{\*/" end="/\*}}}\*/" contains=cCppParen,cFormat,cComment,cInclude,cType,cTodo,cStatement,cppStatement,cStructure,cDefine,cRepeat,cLabel,cUserCont,cStorageClass,cString,cCppString,cCommentL,cCommentStart,cConditional,cRepeat,cCharacter,cSpecialCharacter,cNumber,cOctal,cOctalZero,cFloat,cOctalError,cOperator,cPreProc,cIncluded,cError,cPreCondit,cConstant,cCppSkip,cCppOut,cSpecial,cCommentString,cComment2String,cCommentSkip fold
 
 
 " FoldingMethod <manual, marker, syntax, indent, expr>
 set foldmethod=marker
 set foldnestmax=1
 
+autocmd filetype c,cpp setlocal foldmethod=syntax | 0,$foldclose | setlocal foldmethod=manual
+autocmd filetype java setlocal foldmethod=syntax foldnestmax=2 | 0,$foldclose | setlocal foldmethod=manual
 
-" general fold mappings
-nmap <silent> <s-F> :foldopen<CR><insert>
-nmap <silent> <c-F> :foldclose<CR>
-imap <silent> <c-F> <ESC>:foldclose<CR>
+" create a fold
 vmap <silent> <c-F> :fold<cr>
+autocmd filetype c,cpp vmap <silent> <c-F> <esc>:call <SID>c_create_fold_mark()<cr>
+
+" toggle fold
+nmap <silent> <c-F> :setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
+imap <silent> <c-F> <esc>:setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
+
+" delete fold
 nmap <silent> <c-a-F> zd
 imap <silent> <c-a-F> <esc>zd<insert>
-autocmd filetype c,cpp setlocal foldmethod=syntax
-autocmd filetype java setlocal foldmethod=syntax foldnestmax=2
-
-
-" mappings for c and cpp
-autocmd filetype c,cpp vmap <silent> <c-F> <esc>:call <SID>c_create_fold_mark()<cr>
 autocmd filetype c,cpp imap <silent> <c-a-f> <esc>:call <SID>c_delete_fold_mark()<cr><insert>
 autocmd filetype c,cpp nmap <silent> <c-a-f> :call <SID>c_delete_fold_mark()<cr>
-
-"
-autocmd filetype c,cpp syn region	cFold		matchgroup=cComment start="/\*{{{\*/" end="/\*}}}\*/" contains=cCppParen,cFormat,cComment,cInclude,cType,cTodo,cStatement,cppStatement,cStructure,cDefine,cRepeat,cLabel,cUserCont,cStorageClass,cString,cCppString,cCommentL,cCommentStart,cConditional,cRepeat,cCharacter,cSpecialCharacter,cNumber,cOctal,cOctalZero,cFloat,cOctalError,cOperator,cPreProc,cIncluded,cError,cPreCondit,cConstant,cCppSkip,cCppOut,cSpecial,cCommentString,cComment2String,cCommentSkip fold
