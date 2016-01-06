@@ -41,7 +41,14 @@ function s:c_delete_fold_mark()
 endfunction
 
 
-" FoldingMethode <manual, marker, syntax, indent, expr>
+" Don't screw up folds when inserting text that might affect them, until
+" leaving insert mode. Foldmethod is local to the window. Protect against
+" screwing up folding when switching between windows.
+autocmd InsertEnter * if !exists('w:last_fdm') | let w:last_fdm=&foldmethod | setlocal foldmethod=manual | endif
+autocmd InsertLeave,WinLeave * if exists('w:last_fdm') | let &l:foldmethod=w:last_fdm | unlet w:last_fdm | endif
+
+
+" FoldingMethod <manual, marker, syntax, indent, expr>
 set foldmethod=marker
 set foldnestmax=1
 
@@ -53,7 +60,7 @@ imap <silent> <c-F> <ESC>:foldclose<CR>
 vmap <silent> <c-F> :fold<cr>
 nmap <silent> <c-a-F> zd
 imap <silent> <c-a-F> <esc>zd<insert>
-autocmd filetype c,cpp setlocal foldmethod=syntax 
+autocmd filetype c,cpp setlocal foldmethod=syntax
 autocmd filetype java setlocal foldmethod=syntax foldnestmax=2
 
 
