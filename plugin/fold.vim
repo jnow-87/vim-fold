@@ -1,3 +1,10 @@
+if exists('g:loaded_folding') || &compatible
+	finish
+endif
+
+let g:loaded_folding = 1
+
+
 " plugin for creating and deleting fold-marks
 " 	this is only required if the foldmethod is set to syntax but
 " 	marker should also be used
