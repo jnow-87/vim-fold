@@ -59,17 +59,17 @@ autocmd filetype c,cpp setlocal foldmethod=syntax | silent! 0,$foldclose | setlo
 autocmd filetype java setlocal foldmethod=syntax foldnestmax=2 | silent! 0,$foldclose | setlocal foldmethod=manual
 
 " create a fold
-vmap <silent> <c-F> :fold<cr>
-autocmd filetype c,cpp vmap <silent> <c-F> <esc>:setlocal foldmethod=syntax<cr>:call <SID>c_create_fold_mark()<cr>:setlocal foldmethod=manual<cr>
-
-" toggle fold
-nmap <silent> <c-F> za
-imap <silent> <c-F> <esc>za
-autocmd filetype c,cpp nmap <silent> <c-F> :setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
-autocmd filetype c,cpp imap <silent> <c-F> <esc>:setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr>
-
-" delete fold
-nmap <silent> <c-a-F> zd
-imap <silent> <c-a-F> <esc>zd<insert>
-autocmd filetype c,cpp imap <silent> <c-a-f> <esc>:call <SID>c_delete_fold_mark()<cr><insert>
-autocmd filetype c,cpp nmap <silent> <c-a-f> :call <SID>c_delete_fold_mark()<cr>
+autocmd filetype * 
+	\ if index(['c', 'cpp'], &filetype) != -1 |
+	\	nmap <buffer> <silent> <c-f> :setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr> |
+	\	vmap <buffer> <silent> <c-f> <esc>:setlocal foldmethod=syntax<cr>:call <SID>c_create_fold_mark()<cr>:setlocal foldmethod=manual<cr> |
+	\	imap <buffer> <silent> <c-f> <esc>:setlocal foldmethod=syntax<cr>za:setlocal foldmethod=manual<cr> |
+	\	imap <buffer> <silent> <c-a-f> <esc>:call <SID>c_delete_fold_mark()<cr><insert> |
+	\	nmap <buffer> <silent> <c-a-f> :call <SID>c_delete_fold_mark()<cr> |
+	\ else |
+	\	nmap <buffer> <silent> <c-f> za |
+	\	vmap <silent> <c-f> :fold<cr> |
+	\	imap <buffer> <silent> <c-f> <esc>za |
+	\	nmap <buffer> <silent> <c-a-f> zd |
+	\	imap <buffer> <silent> <c-a-f> <esc>zd<insert> |
+	\ endif
