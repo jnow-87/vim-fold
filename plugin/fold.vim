@@ -55,8 +55,8 @@ autocmd filetype c,cpp syn region	cFold		matchgroup=cComment start="/\*{{{\*/" e
 set foldmethod=marker
 set foldnestmax=1
 
-autocmd filetype c,cpp,yacc setlocal foldmethod=syntax | silent! 0,$foldclose | setlocal foldmethod=manual
-autocmd filetype java setlocal foldmethod=syntax foldnestmax=2 | silent! 0,$foldclose | setlocal foldmethod=manual
+autocmd filetype c,cpp,yacc,sh	setlocal foldmethod=syntax | silent! 0,$foldclose | setlocal foldmethod=manual
+autocmd filetype java 			setlocal foldmethod=syntax foldnestmax=2 | silent! 0,$foldclose | setlocal foldmethod=manual
 
 " create a fold
 autocmd filetype * 
