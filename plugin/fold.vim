@@ -12,8 +12,8 @@ let g:loaded_folding = 1
 
 " create a fold-mark for the last region selected in visual mode
 function s:c_create_fold_mark()
-	exec "normal '<A /*{{{*/"
-	exec "normal '>A /*}}}*/"
+	exec "normal! '<A /*{{{*/"
+	exec "normal! '>A /*}}}*/"
 	exec "foldclose"
 endfunction
 
@@ -25,25 +25,25 @@ function s:c_delete_fold_mark()
 	endif
 
 	" goto start of line
-	exe "normal 0"
+	exe "normal! 0"
 
 	" check wether current line is
 	" 	start of a fold
 	" 	end of a fold
 	" 	part of a fold
 	if search(' \/\*{{{\*\/', '', line('.')) != 0
-		exec "normal 2diw"
+		exec "normal! 2diw"
 		call search(' \/\*}}}\*\/')
-		exec "normal 2diw"
+		exec "normal! 2diw"
 	elseif search(' \/\*}}}\*\/', '', line('.')) != 0
-		exec "normal 2diw"
+		exec "normal! 2diw"
 		call search(' \/\*{{{\*\/', 'b')
-		exec "normal 2diw"
+		exec "normal! 2diw"
 	else
 		call search(' \/\*}}}\*\/')
-		exec "normal 2diw"
+		exec "normal! 2diw"
 		call search(' \/\*{{{\*\/', 'b')
-		exec "normal 2diw"
+		exec "normal! 2diw"
 	endif
 endfunction
 
